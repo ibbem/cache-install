@@ -106,6 +106,8 @@ function undo_prepare {
 }
 
 function clean_nix_store {
+  echo "PATH=$PATH"
+  which -a nix-store
   nix-store --gc
   nix-store --optimise
 }
