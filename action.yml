@@ -50,6 +50,7 @@ runs:
           /nix/var/nix/profiles/per-user/${{ env.USER }}/profile/bin/
           /nix/var/nix/profiles/default/bin/
           /nix/var/nix/profiles/per-user/root/channels/
+          /etc/nix/
           /home/${{ env.USER }}/.nix-profile/bin/
         key: ${{ inputs.key }}
         restore-keys: ${{ inputs.restore-keys }}
