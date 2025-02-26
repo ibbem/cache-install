@@ -103,10 +103,23 @@ function prepare {
   sudo chown --verbose "$USER:" /nix
 }
 
+function prepare_etc {
+  echo "Running prepare_etc from core.sh"
+
+  sudo mkdir -p --verbose /etc/nix
+  sudo chown --verbose "$USER:" /etc/nix
+}
+
 function undo_prepare {
   echo "Running undo_prepare from core.sh"
 
   sudo rm -rf /nix
+}
+
+function undo_prepare_etc {
+  echo "Running undo_prepare_etc from core.sh"
+
+  sudo chown --verbose "root:" /etc/nix
 }
 
 function clean_nix_store {
@@ -118,8 +131,10 @@ function clean_nix_store {
 
 TASK="$1"
 if [ "$TASK" == "prepare-restore" ]; then
+  prepare_etc
   prepare
 elif [ "$TASK" == "install-with-nix" ]; then
+  undo_prepare_etc
   undo_prepare
   set_nix_path
   install_nix
@@ -127,6 +142,7 @@ elif [ "$TASK" == "install-with-nix" ]; then
   set_nix_profile_symlink
   install_via_nix
 elif [ "$TASK" == "install-from-cache" ]; then
+  undo_prepare_etc
   set_nix_path
   set_paths
   set_nix_profile_symlink
